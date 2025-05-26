@@ -115,8 +115,8 @@ std = [
     "k256?/std",
     "keccak-asm?/std",
     # "proptest?/std",
-    "rand?/std",
-    "rand?/thread_rng",
+    # "rand?/std",
+    # "rand?/thread_rng",
     "rustc-hash?/std",
     "serde?/std",
     "sha3?/std",
@@ -141,7 +141,7 @@ map-fxhash = ["map", "dep:rustc-hash"]
 
 # getrandom = ["dep:getrandom"]
 k256 = ["dep:k256"]
-rand = ["dep:rand", "ruint/rand-09", "rustc-hash?/rand"]
+# rand = ["dep:rand", "ruint/rand-09", "rustc-hash?/rand"]
 rayon = ["dep:rayon", "hashbrown?/rayon", "indexmap?/rayon"]
 rlp = ["dep:alloy-rlp", "ruint/alloy-rlp"]
 serde = [
@@ -151,7 +151,7 @@ serde = [
     "ruint/serde",
     "hashbrown?/serde",
     "indexmap?/serde",
-    "rand?/serde",
+    # "rand?/serde",
 ]
 
 allocative = ["dep:allocative"]
@@ -176,4 +176,4 @@ hex-compat = ["hex/hex"]
 name = "primitives"
 path = "benches/primitives.rs"
 harness = false
-required-features = ["rand"]
+# required-features = ["rand"]
