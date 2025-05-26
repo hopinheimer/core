@@ -230,7 +230,7 @@ macro_rules! wrap_fixed_bytes {
         $crate::impl_rlp!($name, $n);
         $crate::impl_serde!($name);
         $crate::impl_allocative!($name);
-        $crate::impl_arbitrary!($name, $n);
+        // $crate::impl_arbitrary!($name, $n);
         $crate::impl_rand!($name);
         $crate::impl_diesel!($name, $n);
 
@@ -689,53 +689,53 @@ macro_rules! impl_serde {
     ($t:ty) => {};
 }
 
-#[doc(hidden)]
-#[macro_export]
-#[cfg(feature = "arbitrary")]
-macro_rules! impl_arbitrary {
-    ($t:ty, $n:literal) => {
-        #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
-        impl<'a> $crate::private::arbitrary::Arbitrary<'a> for $t {
-            #[inline]
-            fn arbitrary(u: &mut $crate::private::arbitrary::Unstructured<'a>) -> $crate::private::arbitrary::Result<Self> {
-                <$crate::FixedBytes<$n> as $crate::private::arbitrary::Arbitrary>::arbitrary(u).map(Self)
-            }
+// #[doc(hidden)]
+// #[macro_export]
+// #[cfg(feature = "arbitrary")]
+// macro_rules! impl_arbitrary {
+//     ($t:ty, $n:literal) => {
+//         #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+//         impl<'a> $crate::private::arbitrary::Arbitrary<'a> for $t {
+//             #[inline]
+//             fn arbitrary(u: &mut $crate::private::arbitrary::Unstructured<'a>) ->
+// $crate::private::arbitrary::Result<Self> {                 <$crate::FixedBytes<$n> as
+// $crate::private::arbitrary::Arbitrary>::arbitrary(u).map(Self)             }
 
-            #[inline]
-            fn arbitrary_take_rest(u: $crate::private::arbitrary::Unstructured<'a>) -> $crate::private::arbitrary::Result<Self> {
-                <$crate::FixedBytes<$n> as $crate::private::arbitrary::Arbitrary>::arbitrary_take_rest(u).map(Self)
-            }
+//             #[inline]
+//             fn arbitrary_take_rest(u: $crate::private::arbitrary::Unstructured<'a>) ->
+// $crate::private::arbitrary::Result<Self> {                 <$crate::FixedBytes<$n> as
+// $crate::private::arbitrary::Arbitrary>::arbitrary_take_rest(u).map(Self)             }
 
-            #[inline]
-            fn size_hint(depth: usize) -> (usize, Option<usize>) {
-                <$crate::FixedBytes<$n> as $crate::private::arbitrary::Arbitrary>::size_hint(depth)
-            }
-        }
+//             #[inline]
+//             fn size_hint(depth: usize) -> (usize, Option<usize>) {
+//                 <$crate::FixedBytes<$n> as
+// $crate::private::arbitrary::Arbitrary>::size_hint(depth)             }
+//         }
 
-        #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
-        impl $crate::private::proptest::arbitrary::Arbitrary for $t {
-            type Parameters = <$crate::FixedBytes<$n> as $crate::private::proptest::arbitrary::Arbitrary>::Parameters;
-            type Strategy = $crate::private::proptest::strategy::Map<
-                <$crate::FixedBytes<$n> as $crate::private::proptest::arbitrary::Arbitrary>::Strategy,
-                fn($crate::FixedBytes<$n>) -> Self,
-            >;
+//         #[cfg_attr(docsrs, doc(cfg(feature = "arbitrary")))]
+//         impl $crate::private::proptest::arbitrary::Arbitrary for $t {
+//             type Parameters = <$crate::FixedBytes<$n> as
+// $crate::private::proptest::arbitrary::Arbitrary>::Parameters;             type Strategy =
+// $crate::private::proptest::strategy::Map<                 <$crate::FixedBytes<$n> as
+// $crate::private::proptest::arbitrary::Arbitrary>::Strategy,                 
+// fn($crate::FixedBytes<$n>) -> Self,             >;
 
-            #[inline]
-            fn arbitrary() -> Self::Strategy {
-                use $crate::private::proptest::strategy::Strategy;
-                <$crate::FixedBytes<$n> as $crate::private::proptest::arbitrary::Arbitrary>::arbitrary()
-                    .prop_map(Self)
-            }
+//             #[inline]
+//             fn arbitrary() -> Self::Strategy {
+//                 use $crate::private::proptest::strategy::Strategy;
+//                 <$crate::FixedBytes<$n> as
+// $crate::private::proptest::arbitrary::Arbitrary>::arbitrary()                     .prop_map(Self)
+//             }
 
-            #[inline]
-            fn arbitrary_with(args: Self::Parameters) -> Self::Strategy {
-                use $crate::private::proptest::strategy::Strategy;
-                <$crate::FixedBytes<$n> as $crate::private::proptest::arbitrary::Arbitrary>::arbitrary_with(args)
-                    .prop_map(Self)
-            }
-        }
-    };
-}
+//             #[inline]
+//             fn arbitrary_with(args: Self::Parameters) -> Self::Strategy {
+//                 use $crate::private::proptest::strategy::Strategy;
+//                 <$crate::FixedBytes<$n> as
+// $crate::private::proptest::arbitrary::Arbitrary>::arbitrary_with(args)                     
+// .prop_map(Self)             }
+//         }
+//     };
+// }
 
 #[doc(hidden)]
 #[macro_export]

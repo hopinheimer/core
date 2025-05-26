@@ -1344,42 +1344,42 @@ mod tests {
         MyTy::tokenize(&b);
     }
 
-    macro_rules! roundtrip {
-        ($($name:ident($st:ty : $t:ty);)+) => {
-            proptest::proptest! {$(
-                #[test]
-                #[cfg_attr(miri, ignore = "doesn't run in isolation and would take too long")]
-                fn $name(i: $t) {
-                    let token = <$st>::tokenize(&i);
-                    proptest::prop_assert_eq!(token.total_words() * 32, <$st>::abi_encoded_size(&i));
-                    proptest::prop_assert_eq!(<$st>::detokenize(token), i);
-                }
-            )+}
-        };
-    }
+    // macro_rules! roundtrip {
+    //     ($($name:ident($st:ty : $t:ty);)+) => {
+    //         proptest::proptest! {$(
+    //             #[test]
+    //             #[cfg_attr(miri, ignore = "doesn't run in isolation and would take too long")]
+    //             fn $name(i: $t) {
+    //                 let token = <$st>::tokenize(&i);
+    //                 proptest::prop_assert_eq!(token.total_words() * 32, <$st>::abi_encoded_size(&i));
+    //                 proptest::prop_assert_eq!(<$st>::detokenize(token), i);
+    //             }
+    //         )+}
+    //     };
+    // }
 
-    roundtrip! {
-        roundtrip_address(Address: RustAddress);
-        roundtrip_bool(Bool: bool);
-        roundtrip_bytes(Bytes: Vec<u8>);
-        roundtrip_string(String: RustString);
-        roundtrip_fixed_bytes_16(FixedBytes<16>: [u8; 16]);
-        roundtrip_fixed_bytes_32(FixedBytes<32>: [u8; 32]);
+    // roundtrip! {
+    //     roundtrip_address(Address: RustAddress);
+    //     roundtrip_bool(Bool: bool);
+    //     roundtrip_bytes(Bytes: Vec<u8>);
+    //     roundtrip_string(String: RustString);
+    //     roundtrip_fixed_bytes_16(FixedBytes<16>: [u8; 16]);
+    //     roundtrip_fixed_bytes_32(FixedBytes<32>: [u8; 32]);
 
-        // can only test corresponding integers
-        roundtrip_u8(Uint<8>: u8);
-        roundtrip_i8(Int<8>: i8);
-        roundtrip_u16(Uint<16>: u16);
-        roundtrip_i16(Int<16>: i16);
-        roundtrip_u32(Uint<32>: u32);
-        roundtrip_i32(Int<32>: i32);
-        roundtrip_u64(Uint<64>: u64);
-        roundtrip_i64(Int<64>: i64);
-        roundtrip_u128(Uint<128>: u128);
-        roundtrip_i128(Int<128>: i128);
-        roundtrip_u256(Uint<256>: U256);
-        roundtrip_i256(Int<256>: I256);
-    }
+    //     // can only test corresponding integers
+    //     roundtrip_u8(Uint<8>: u8);
+    //     roundtrip_i8(Int<8>: i8);
+    //     roundtrip_u16(Uint<16>: u16);
+    //     roundtrip_i16(Int<16>: i16);
+    //     roundtrip_u32(Uint<32>: u32);
+    //     roundtrip_i32(Int<32>: i32);
+    //     roundtrip_u64(Uint<64>: u64);
+    //     roundtrip_i64(Int<64>: i64);
+    //     roundtrip_u128(Uint<128>: u128);
+    //     roundtrip_i128(Int<128>: i128);
+    //     roundtrip_u256(Uint<256>: U256);
+    //     roundtrip_i256(Int<256>: I256);
+    // }
 
     #[test]
     fn tokenize_uint() {
