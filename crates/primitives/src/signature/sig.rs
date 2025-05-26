@@ -387,20 +387,20 @@ impl<'a> arbitrary::Arbitrary<'a> for Signature {
     }
 }
 
-#[cfg(feature = "arbitrary")]
-impl proptest::arbitrary::Arbitrary for Signature {
-    type Parameters = ();
-    type Strategy = proptest::strategy::Map<
-        <(U256, U256, bool) as proptest::arbitrary::Arbitrary>::Strategy,
-        fn((U256, U256, bool)) -> Self,
-    >;
+// #[cfg(feature = "arbitrary")]
+// impl proptest::arbitrary::Arbitrary for Signature {
+//     type Parameters = ();
+//     type Strategy = proptest::strategy::Map<
+//         <(U256, U256, bool) as proptest::arbitrary::Arbitrary>::Strategy,
+//         fn((U256, U256, bool)) -> Self,
+//     >;
 
-    fn arbitrary_with((): Self::Parameters) -> Self::Strategy {
-        use proptest::strategy::Strategy;
-        proptest::arbitrary::any::<(U256, U256, bool)>()
-            .prop_map(|(r, s, y_parity)| Self::new(r, s, y_parity))
-    }
-}
+//     fn arbitrary_with((): Self::Parameters) -> Self::Strategy {
+//         use proptest::strategy::Strategy;
+//         proptest::arbitrary::any::<(U256, U256, bool)>()
+//             .prop_map(|(r, s, y_parity)| Self::new(r, s, y_parity))
+//     }
+// }
 
 #[cfg(feature = "serde")]
 mod signature_serde {

@@ -67,7 +67,7 @@ map-indexmap = ["alloy-primitives/map-indexmap"]
 map-foldhash = ["alloy-primitives/map-foldhash"]
 map-fxhash = ["alloy-primitives/map-fxhash"]
 
-getrandom = ["alloy-primitives/getrandom"]
+# getrandom = ["alloy-primitives/getrandom"]
 rand = ["alloy-primitives/rand"]
 rayon = ["alloy-primitives/rayon"]
 rlp = ["alloy-primitives/rlp", "dep:alloy-rlp"]
